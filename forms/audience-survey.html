@@ -170,16 +170,14 @@
       font-size: 14px;
     }
     .footer-inner {
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+      display: flex; justify-content: center; align-items: center; flex-wrap: wrap;
       gap: var(--spacing-30);
       max-width: 1140px; margin: 0 auto; padding: 0 var(--spacing-40);
     }
-    .footer-logo img { height: 26px; opacity: 0.85; }
-    .footer-back {
-      color: rgba(246,246,246,0.7);
-      display: inline-flex; align-items: center; gap: 6px;
+    .footer-logo img {
+      height: 32px; opacity: 0.9;
+      filter: brightness(0) invert(1);
     }
-    .footer-back:hover { color: #fff; text-decoration: none; }
   </style>
 </head>
 <body>
@@ -237,10 +235,6 @@
       <div class="footer-logo">
         <img src="../assets/logo/wordmark-full.svg" alt="知識遊牧工作室" onerror="this.parentElement.innerHTML='<span style=&quot;font-weight:600;color:#fff;&quot;>知識遊牧 ｜ 活動報名中心</span>'">
       </div>
-      <a href="../index.html" class="footer-back">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        回到活動報名中心
-      </a>
     </div>
   </footer>
 
