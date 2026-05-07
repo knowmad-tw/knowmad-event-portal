@@ -114,6 +114,14 @@
       pointer-events: none;
     }
     .hero-inner { position: relative; text-align: center; }
+    .hero-logo {
+      display: block;
+      height: 40px;
+      width: auto;
+      margin: 0 auto var(--spacing-40);
+      filter: brightness(0) invert(1);
+      opacity: 0.95;
+    }
     .hero-eyebrow {
       font-family: var(--font-mono);
       font-size: 12px; font-weight: 500;
@@ -196,6 +204,7 @@
   <!-- Hero (minimal) -->
   <header class="hero">
     <div class="container hero-inner">
+      <img src="../assets/logo/wordmark-full.svg" alt="知識遊牧工作室" class="hero-logo" onerror="this.style.display='none'">
       <p class="hero-eyebrow">SURVEY · 01</p>
       <h1>調查</h1>
     </div>
