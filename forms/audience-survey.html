@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>調查 · 知識遊牧｜活動報名中心</title>
+
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="bingbot" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+
+  <link rel="icon" type="image/png" href="../assets/logo/square-logo.png">
+  <link rel="apple-touch-icon" href="../assets/logo/square-logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --text: #202220;
+      --text-secondary: #5a5a5a;
+      --bg: #ffffff;
+      --bg-alt: rgba(0, 0, 0, 0.05);
+      --bg-inv: #494949;
+      --fg-alt: #f6f6f6;
+      --primary: #233363;
+      --primary-link: #0e78a4;
+      --primary-light: #4a9cbf;
+      --spacing-30: clamp(.6rem, 2.5vw, 1rem);
+      --spacing-40: clamp(1rem, 3vw, 1.5rem);
+      --spacing-50: clamp(1.5rem, 4vw, 2rem);
+      --spacing-60: clamp(2rem, 5vw, 3rem);
+      --spacing-70: clamp(3rem, 6vw, 4rem);
+      --font-zh: "Noto Sans TC", "PingFang TC", -apple-system, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+      --radius-sm: 4px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-zh);
+      color: var(--text);
+      background: var(--bg-alt);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--primary-link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-40);
+    }
+
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      max-width: 1140px; margin: 0 auto; padding: 0 var(--spacing-40);
+    }
+    .nav-logo {
+      display: flex; align-items: baseline; gap: 10px;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo:hover { text-decoration: none; }
+    .nav-logo .brand-main {
+      font-size: 17px; font-weight: 700;
+      color: var(--primary); letter-spacing: 0.5px;
+    }
+    .nav-logo .brand-divider {
+      color: rgba(0, 0, 0, 0.25);
+      font-weight: 400; font-size: 15px;
+    }
+    .nav-logo .brand-sub {
+      font-size: 14px; font-weight: 500;
+      color: var(--text-secondary); letter-spacing: 0.5px;
+    }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 14px; font-weight: 500; color: var(--text-secondary);
+    }
+    .nav-back:hover { color: var(--primary-link); text-decoration: none; }
+
+    /* Hero — 簡化版，只留標題 */
+    .hero {
+      position: relative; overflow: hidden;
+      color: #fff;
+      padding: var(--spacing-60) 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 0%, rgba(74, 156, 191, 0.35) 0%, transparent 65%),
+        linear-gradient(180deg, #1a274a 0%, #233363 100%);
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 48px 48px;
+      -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 78%);
+              mask-image: radial-gradient(ellipse at center, black 35%, transparent 78%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; text-align: center; }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(246, 246, 246, 0.6);
+      margin: 0 0 12px;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 3.6vw, 36px);
+      font-weight: 700; color: #fff;
+      line-height: 1.25; letter-spacing: -0.5px;
+      margin: 0;
+    }
+
+    /* Form Wrapper */
+    .form-section { padding: var(--spacing-60) 0 var(--spacing-70); }
+    .form-card {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(35, 51, 99, 0.06);
+    }
+    .form-iframe-wrap { position: relative; background: #fff; }
+    .form-iframe-wrap iframe {
+      display: block; width: 100%; height: 900px; border: 0;
+    }
+    .form-iframe-wrap .iframe-loader {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .form-iframe-wrap.is-loaded .iframe-loader { opacity: 0; }
+    .iframe-loader-inner {
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      color: var(--text-secondary); font-size: 14px;
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid rgba(35, 51, 99, 0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Footer */
+    footer {
+      background: var(--bg-inv); color: var(--fg-alt);
+      padding: var(--spacing-50) 0;
+      font-size: 14px;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+      gap: var(--spacing-30);
+      max-width: 1140px; margin: 0 auto; padding: 0 var(--spacing-40);
+    }
+    .footer-logo img { height: 26px; opacity: 0.85; }
+    .footer-back {
+      color: rgba(246,246,246,0.7);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .footer-back:hover { color: #fff; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo" aria-label="知識遊牧｜活動報名中心">
+        <span class="brand-main">知識遊牧</span>
+        <span class="brand-divider">｜</span>
+        <span class="brand-sub">活動報名中心</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero (minimal) -->
+  <header class="hero">
+    <div class="container hero-inner">
+      <p class="hero-eyebrow">SURVEY · 01</p>
+      <h1>調查</h1>
+    </div>
+  </header>
+
+  <!-- Form -->
+  <section class="form-section">
+    <div class="container">
+      <div class="form-card">
+        <div class="form-iframe-wrap" id="iframeWrap">
+          <div class="iframe-loader">
+            <div class="iframe-loader-inner">
+              <div class="spinner"></div>
+              <span>載入問卷中⋯</span>
+            </div>
+          </div>
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSeJ-lIFlyer3qLbppWCjoOCjB-utB8Vj_TzDjXyzUJr5WMQjQ/viewform?embedded=true"
+            width="100%"
+            height="900"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            id="formFrame"
+            title="知識遊牧｜活動報名中心 調查">
+            載入中⋯ 若沒有顯示，請
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJ-lIFlyer3qLbppWCjoOCjB-utB8Vj_TzDjXyzUJr5WMQjQ/viewform" target="_blank">點此開啟問卷</a>。
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="../assets/logo/wordmark-full.svg" alt="知識遊牧工作室" onerror="this.parentElement.innerHTML='<span style=&quot;font-weight:600;color:#fff;&quot;>知識遊牧 ｜ 活動報名中心</span>'">
+      </div>
+      <a href="../index.html" class="footer-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        回到活動報名中心
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    const wrap = document.getElementById('iframeWrap');
+    const frame = document.getElementById('formFrame');
+    frame.addEventListener('load', () => {
+      wrap.classList.add('is-loaded');
+      setTimeout(() => {
+        const loader = wrap.querySelector('.iframe-loader');
+        if (loader) loader.style.display = 'none';
+      }, 500);
+    });
+    setTimeout(() => {
+      wrap.classList.add('is-loaded');
+      const loader = wrap.querySelector('.iframe-loader');
+      if (loader) loader.style.display = 'none';
+    }, 3000);
+  </script>
+
+</body>
+</html>
