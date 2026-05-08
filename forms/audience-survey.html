@@ -160,7 +160,8 @@
     }
     .form-iframe-wrap { position: relative; background: #fff; }
     .form-iframe-wrap iframe {
-      display: block; width: 100%; height: 900px; border: 0;
+      display: block; width: 100%; height: 1500px; border: 0;
+      transition: height 0.2s ease;
     }
     .form-iframe-wrap .iframe-loader {
       position: absolute; inset: 0;
@@ -243,7 +244,7 @@
           <iframe
             src="https://docs.google.com/forms/d/e/1FAIpQLSeJ-lIFlyer3qLbppWCjoOCjB-utB8Vj_TzDjXyzUJr5WMQjQ/viewform?embedded=true"
             width="100%"
-            height="900"
+            height="1500"
             frameborder="0"
             marginheight="0"
             marginwidth="0"
@@ -281,6 +282,23 @@
       const loader = wrap.querySelector('.iframe-loader');
       if (loader) loader.style.display = 'none';
     }, 3000);
+
+    // Best-effort dynamic resize：聽 Google 是否送高度事件（現在不一定有）
+    // 之後 Google 若加上 postMessage 高度通知，這段會自動生效
+    window.addEventListener('message', (e) => {
+      if (!/^https:\/\/(docs|forms)\.google\.com$/.test(e.origin)) return;
+      const data = e.data;
+      let h = null;
+      if (typeof data === 'object' && data) {
+        h = data.height || data.iframeHeight || (data.params && data.params.height);
+      } else if (typeof data === 'string') {
+        const match = data.match(/"height":\s*(\d+)/);
+        if (match) h = parseInt(match[1], 10);
+      }
+      if (h && h > 400 && h < 5000) {
+        frame.style.height = h + 'px';
+      }
+    });
   </script>
 
 </body>
