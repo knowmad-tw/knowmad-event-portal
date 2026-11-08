@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 活動報名中心：票券 -->
+  <rect width="64" height="64" rx="14" fill="#D6336C"/>
+  <path fill="#fff" d="M10 20h44v8a4 4 0 0 0 0 8v8H10v-8a4 4 0 0 0 0-8z"/>
+  <path d="M40 22v20" stroke="#D6336C" stroke-width="3" stroke-dasharray="3 3"/><path fill="#D6336C" d="m24 26 2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8z"/>
+</svg>
