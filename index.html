@@ -20,49 +20,65 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 
   <style>
+    /* 色票、字級、元件規格一律照 AI 中心 public/design-guideline.md（行銷頁那一套） */
     :root {
-      /* 文字 */
+      /* 中性色 */
       --text: #202220;
       --text-secondary: #5a5a5a;
       --bg: #ffffff;
       --bg-alt: rgba(0, 0, 0, 0.05);
-      --bg-inv: #494949;
       --fg-alt: #f6f6f6;
+      --line: #dcdfe3;
+      --gray-500: #6F7787;
 
-      /* Primary */
+      /* 品牌藍（從 logo 取樣的四色） */
       --primary: #233363;
-      --primary-link: #0e78a4;
-      --primary-mid: #2e7ea6;
-      --primary-light: #4a9cbf;
+      --primary-dark: #1a274a;
+      --primary-soft: rgba(35, 51, 99, 0.08);
+      --primary-link: #146C94;
+      --primary-mid: #52618E;
+      --primary-light: #6A9BB7;
 
-      /* Alert */
-      --alert: #e85444;
+      /* 狀態 */
+      --ok: #17705C;
+      --alert: #C63F31;
 
-      /* Spacing */
-      --spacing-20: clamp(.4rem, 2vw, .5rem);
-      --spacing-30: clamp(.6rem, 2.5vw, 1rem);
-      --spacing-40: clamp(1rem, 3vw, 1.5rem);
-      --spacing-50: clamp(1.5rem, 4vw, 2rem);
-      --spacing-60: clamp(2rem, 5vw, 3rem);
-      --spacing-70: clamp(3rem, 6vw, 4rem);
-      --spacing-80: clamp(3rem, 7vw, 5rem);
-
-      /* Type */
-      --font-zh: "Noto Sans TC", "PingFang TC", -apple-system, sans-serif;
-      --font-en: "Roboto", -apple-system, sans-serif;
+      /* 字型：Roboto 在前，中文自動落到 Noto Sans TC */
+      --font: Roboto, "Noto Sans TC", sans-serif;
       --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-      --radius-sm: 4px;
+      /* 行銷頁字級 */
+      --fs-huge: 42px;
+      --fs-xl: 32px;
+      --fs-lg: 28px;
+      --fs-md: 24px;
+      --fs-normal: 16px;
+      --fs-small: 14px;
+
+      /* 間距 1–5 */
+      --sp-1: .25rem;
+      --sp-2: .5rem;
+      --sp-3: 1rem;
+      --sp-4: 1.5rem;
+      --sp-5: 3rem;
+      --sp-section: clamp(1.5rem, 4vw, 3rem);
+
+      /* 圓角只有兩個值 */
+      --radius-ctl: 6px;
+      --radius-card: 8px;
       --radius-pill: 9999px;
+
+      --focus-ring: 0 0 0 3px rgba(20, 108, 148, .14);
     }
 
     * { box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 
     body {
       margin: 0;
-      font-family: var(--font-zh);
+      font-family: var(--font);
+      font-size: var(--fs-normal);
       color: var(--text);
       background: var(--bg);
       line-height: 1.7;
@@ -70,121 +86,128 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    a { color: var(--primary-link); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a { color: var(--primary-link); }
+    a:focus-visible { outline: 2px solid var(--primary-link); outline-offset: 2px; border-radius: 2px; }
 
     .container {
-      max-width: 1140px;
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 0 var(--spacing-40);
+      padding: 0 var(--sp-4);
     }
+    @media (max-width: 640px) { .container { padding: 0 var(--sp-3); } }
 
-    /* ───────── Nav ───────── */
+    /* ───────── 頁首（行銷頁） ───────── */
     .nav {
       position: sticky;
       top: 0;
       z-index: 50;
       background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: saturate(180%) blur(12px);
-      -webkit-backdrop-filter: saturate(180%) blur(12px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
     }
     .nav-inner {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      height: 64px;
+      gap: var(--sp-3);
+      padding-block: 12px;
     }
-    .nav-logo {
+    .brand {
       display: flex;
-      align-items: baseline;
-      gap: 10px;
-      color: var(--text);
+      align-items: center;
+      gap: var(--sp-3);
       text-decoration: none;
-      font-weight: 600;
+      min-height: 44px;
     }
-    .nav-logo:hover { text-decoration: none; }
-    .nav-logo .brand-main {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--primary);
-      letter-spacing: 0.5px;
-    }
-    .nav-logo .brand-divider {
-      color: rgba(0, 0, 0, 0.25);
-      font-weight: 400;
-      font-size: 15px;
-    }
-    .nav-logo .brand-sub {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      letter-spacing: 0.5px;
-    }
-    .nav-links { display: flex; gap: var(--spacing-40); align-items: center; }
-    .nav-links a {
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-    }
-    .nav-links a:hover { color: var(--primary-link); }
-    .nav-cta {
-      font-family: var(--font-en);
+    .brand img { height: 30px; width: auto; display: block; }
+    .brand-label {
+      font-family: var(--font-mono);
       font-size: 12px;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--text-secondary);
+      padding-left: var(--sp-3);
+      border-left: 1px solid var(--line);
+      white-space: nowrap;
     }
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
+    .nav-spacer { flex: 1; }
+    .nav-links { display: flex; gap: var(--sp-2); align-items: center; }
+    .nav-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 var(--sp-2);
+      color: var(--text);
+      font-size: var(--fs-small);
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+      border-radius: var(--radius-ctl);
+      transition: color .12s, background .12s;
+    }
+    .nav-links a:hover { color: var(--primary); background: var(--primary-soft); }
+    @media (max-width: 760px) {
+      .nav-links .nav-secondary { display: none; }
+    }
+    @media (max-width: 480px) {
+      .brand-label { display: none; }
     }
 
-    /* ───────── Buttons ───────── */
+    /* ───────── 按鈕（特大 48px） ───────── */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: var(--sp-2);
       height: 48px;
       padding: 0 24px;
-      font-size: 16px;
+      font-family: var(--font);
+      font-size: 20px;
       font-weight: 500;
-      font-family: var(--font-zh);
+      line-height: 1;
       color: #fff;
       background: var(--primary);
-      border: none;
-      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      border-radius: var(--radius-ctl);
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.18s ease, transform 0.18s ease;
+      white-space: nowrap;
+      transition: background .12s, border-color .12s, box-shadow .12s, color .12s;
     }
-    .btn:hover { background: #000; text-decoration: none; transform: translateY(-1px); }
+    .btn:hover { background: var(--primary-dark); }
+    .btn:focus-visible { outline: 0; border-color: var(--primary-link); box-shadow: var(--focus-ring); }
+    .btn--secondary {
+      background: #fff;
+      color: var(--primary);
+      border-color: var(--line);
+    }
+    .btn--secondary:hover { background: var(--primary-soft); border-color: var(--primary); }
     .btn:disabled, .btn.is-disabled {
-      background: #888; cursor: not-allowed; pointer-events: none;
+      background: var(--fg-alt);
+      color: var(--gray-500);
+      border-color: var(--line);
+      cursor: not-allowed;
     }
-    .btn--ghost {
+    /* 深色區塊上的兩種 */
+    .btn--on-dark { background: #fff; color: var(--primary); }
+    .btn--on-dark:hover { background: var(--fg-alt); color: var(--primary-dark); }
+    .btn--ghost-dark {
       background: transparent;
       color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-color: rgba(255, 255, 255, 0.4);
     }
-    .btn--ghost:hover { background: rgba(255, 255, 255, 0.08); }
-    .btn--outline {
-      background: transparent;
-      color: var(--primary);
-      border: 1px solid var(--primary);
-    }
-    .btn--outline:hover { background: var(--primary); color: #fff; }
+    .btn--ghost-dark:hover { background: rgba(255, 255, 255, 0.1); }
+    .hero .btn:focus-visible { border-color: #fff; box-shadow: 0 0 0 3px rgba(255, 255, 255, .35); }
 
-    /* ───────── Hero (Dark Section) ───────── */
+    /* ───────── Hero（深色強調區塊） ───────── */
     .hero {
       position: relative;
       overflow: hidden;
       color: #fff;
-      padding: clamp(4rem, 9vw, 7rem) 0 clamp(4rem, 8vw, 6rem);
+      padding-block: clamp(3rem, 8vw, 6rem);
       background:
-        radial-gradient(ellipse 70% 60% at 50% 0%, rgba(74, 156, 191, 0.35) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(46, 126, 166, 0.28) 0%, transparent 70%),
+        radial-gradient(ellipse 70% 60% at 50% 0%, rgba(106, 155, 183, 0.35) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(82, 97, 142, 0.28) 0%, transparent 70%),
         linear-gradient(180deg, #1a274a 0%, #233363 55%, #2a3d76 100%);
     }
     .hero::before {
@@ -205,9 +228,11 @@
       margin: 0 auto;
     }
     .hero-logo {
+      display: block;
       width: 72px; height: 72px;
-      margin: 0 auto var(--spacing-50);
-      filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.35));
+      margin: 0 auto var(--sp-4);
+      /* 深底換白色版 */
+      filter: brightness(0) invert(1) drop-shadow(0 12px 32px rgba(0, 0, 0, 0.35));
     }
     .hero-eyebrow {
       font-family: var(--font-mono);
@@ -216,37 +241,36 @@
       letter-spacing: 3px;
       text-transform: uppercase;
       color: rgba(246, 246, 246, 0.6);
-      margin: 0 0 var(--spacing-30);
+      margin: 0 0 var(--sp-3);
     }
     .hero h1 {
-      font-size: clamp(36px, 5.4vw, 60px);
+      font-size: clamp(32px, 4.5vw, 42px);
       font-weight: 700;
       color: #fff;
       line-height: 1.1;
       letter-spacing: -0.5px;
-      margin: 0 0 var(--spacing-40);
+      margin: 0 0 var(--sp-4);
     }
     .hero-sub {
-      font-size: clamp(17px, 2.1vw, 22px);
-      font-weight: 400;
+      font-size: clamp(15px, 1.6vw, 17px);
       color: rgba(246, 246, 246, 0.82);
       line-height: 1.6;
-      max-width: 600px;
-      margin: 0 auto var(--spacing-60);
+      max-width: 640px;
+      margin: 0 auto var(--sp-5);
     }
     .hero-actions {
-      display: flex; gap: var(--spacing-30);
+      display: flex; gap: var(--sp-3);
       justify-content: center; flex-wrap: wrap;
     }
     .hero-chips {
-      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-      margin-top: var(--spacing-60);
+      display: flex; gap: var(--sp-2); justify-content: center; flex-wrap: wrap;
+      margin-top: var(--sp-5);
     }
     .chip {
       display: inline-flex; align-items: center;
       padding: 6px 14px;
-      font-size: 14px;
-      color: rgba(246, 246, 246, 0.85);
+      font-size: var(--fs-small);
+      color: rgba(246, 246, 246, 0.82);
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: var(--radius-pill);
@@ -254,305 +278,312 @@
       -webkit-backdrop-filter: blur(4px);
     }
 
-    /* ───────── Section ───────── */
-    section { padding: var(--spacing-80) 0; }
+    /* ───────── Section：白與淺灰交替 ───────── */
+    section { padding-block: var(--sp-section); }
+    section + section { padding-top: var(--sp-section); }
     .section-alt { background: var(--bg-alt); }
     .section-head {
       text-align: center;
-      margin-bottom: var(--spacing-70);
+      max-width: 640px;
+      margin: 0 auto var(--sp-5);
     }
     .section-eyebrow {
       font-family: var(--font-mono);
       font-size: 12px;
+      font-weight: 500;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--primary-link);
-      margin: 0 0 12px;
+      margin: 0 0 var(--sp-2);
     }
     .section-title {
-      font-size: clamp(28px, 3.5vw, 32px);
+      font-size: var(--fs-xl);
       font-weight: 600;
       line-height: 1.3;
       color: var(--text);
-      margin: 0 0 var(--spacing-30);
+      margin: 0 0 var(--sp-3);
     }
     .section-desc {
-      font-size: 16px;
+      font-size: var(--fs-normal);
       color: var(--text-secondary);
-      max-width: 620px;
-      margin: 0 auto;
+      margin: 0;
+    }
+    @media (max-width: 640px) {
+      .section-title { font-size: var(--fs-lg); }
+      .section-desc { text-align: left; }
     }
 
-    /* ───────── Event Cards ───────── */
+    /* ───────── 活動卡片 ───────── */
     .events-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: var(--spacing-50);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 360px));
+      justify-content: center;
+      gap: var(--sp-4);
     }
     .event-card {
       display: flex;
       flex-direction: column;
       background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 8px;
-      padding: var(--spacing-50);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
+      padding: var(--sp-4);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
     }
     .event-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(35, 51, 99, 0.12);
-      border-color: rgba(35, 51, 99, 0.2);
+      box-shadow: 0 12px 32px rgba(35, 51, 99, 0.14);
+      border-color: var(--primary);
     }
-    .event-card .event-meta {
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-      margin-bottom: var(--spacing-30);
+    .event-meta {
+      display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;
+      margin-bottom: var(--sp-3);
     }
     .event-tag {
       display: inline-flex;
       align-items: center;
-      padding: 4px 12px;
-      font-size: 12px;
+      padding: 2px 10px;
+      font-size: var(--fs-small);
       font-weight: 500;
       border-radius: var(--radius-pill);
+      background: var(--bg-alt);
+      color: var(--text-secondary);
     }
-    .event-tag--survey { background: rgba(74, 156, 191, 0.12); color: var(--primary-mid); }
-    .event-tag--workshop { background: rgba(35, 51, 99, 0.1); color: var(--primary); }
-    .event-tag--meetup { background: rgba(232, 84, 68, 0.1); color: var(--alert); }
+    .event-tag--survey { background: rgba(20, 108, 148, .12); color: var(--primary-link); }
+    .event-tag--workshop { background: rgba(35, 51, 99, .10); color: var(--primary); }
     .event-status {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 12px;
       letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--text-secondary);
+      color: var(--ok);
     }
     .event-status::before {
       content: "●";
-      color: #2ecc71;
       margin-right: 6px;
     }
-    .event-status.is-closed::before { color: #888; }
+    .event-status.is-pending { color: var(--text-secondary); }
+    .event-status.is-pending::before { color: var(--gray-500); }
+    .event-status.is-ended { color: var(--text-secondary); }
+    .event-status.is-ended::before { color: var(--gray-500); }
     .event-card h3 {
-      font-size: 22px;
+      font-size: var(--fs-md);
       font-weight: 600;
-      line-height: 1.4;
+      line-height: 1.5;
       color: var(--text);
-      margin: 0 0 12px;
+      margin: 0 0 var(--sp-2);
     }
     .event-card p {
-      font-size: 15px;
+      font-size: var(--fs-normal);
       color: var(--text-secondary);
       line-height: 1.7;
-      margin: 0 0 var(--spacing-40);
+      margin: 0 0 var(--sp-4);
       flex: 1;
     }
     .event-info {
-      display: grid; gap: 6px;
-      margin-bottom: var(--spacing-40);
-      font-size: 14px;
+      display: grid; gap: var(--sp-1);
+      margin: 0 0 var(--sp-4);
+      padding: 0;
+      list-style: none;
+      font-size: var(--fs-small);
       color: var(--text-secondary);
     }
-    .event-info span { display: flex; align-items: center; gap: 8px; }
-    .event-info svg { flex-shrink: 0; color: var(--primary-link); }
+    .event-info li { display: flex; align-items: flex-start; gap: var(--sp-2); line-height: 1.6; }
+    .event-info svg { flex-shrink: 0; color: var(--primary-link); margin-top: 3px; }
     .event-card .btn { width: 100%; }
 
-    /* 預告 / 即將推出卡 */
-    .event-card--upcoming {
-      background: rgba(35, 51, 99, 0.04);
-      border-style: dashed;
+    /* 預告卡 */
+    .event-card--upcoming { border-style: dashed; }
+    .event-card--upcoming:hover { transform: none; box-shadow: none; border-color: var(--line); }
+
+    /* 已結束的卡 */
+    .event-card--ended { background: #fff; }
+    .event-card--ended h3 { color: var(--text-secondary); }
+    .event-card--ended:hover { transform: none; box-shadow: none; border-color: var(--line); }
+    .event-note {
+      font-size: var(--fs-small);
+      color: var(--text-secondary);
+      margin: calc(-1 * var(--sp-3)) 0 var(--sp-4);
     }
-    .event-card--upcoming:hover { transform: none; box-shadow: none; }
-    .event-card--upcoming p { color: #888; }
 
     /* ───────── About ───────── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-70);
-      align-items: center;
-    }
-    @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
-    .about-text h2 {
-      font-size: clamp(28px, 3.5vw, 32px);
-      font-weight: 600;
-      color: var(--text);
-      margin: 0 0 var(--spacing-30);
-      line-height: 1.3;
-    }
-    .about-text p {
-      font-size: 16px;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      margin: 0 0 var(--spacing-30);
-    }
     .about-diff {
-      display: grid; gap: var(--spacing-30);
-      padding: var(--spacing-50);
-      background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 8px;
-    }
-    .diff-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-30);
+      gap: var(--sp-4);
+      padding: var(--sp-4);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
+      max-width: 880px;
+      margin: 0 auto;
     }
-    .diff-cell h4 {
+    @media (max-width: 640px) { .about-diff { grid-template-columns: 1fr; } }
+    .diff-cell h3 {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 500;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--text-secondary);
-      margin: 0 0 8px;
-      font-weight: 500;
+      margin: 0 0 var(--sp-2);
     }
     .diff-cell ul {
       list-style: none; padding: 0; margin: 0;
-      font-size: 14px;
+      font-size: var(--fs-small);
       color: var(--text);
     }
-    .diff-cell li {
-      padding: 4px 0;
-      line-height: 1.6;
-    }
-    .diff-cell--portal h4 { color: var(--primary-link); }
-    .diff-cell--portal { padding-left: var(--spacing-30); border-left: 2px solid var(--primary-link); }
+    .diff-cell li { padding: var(--sp-1) 0; line-height: 1.6; }
+    .diff-cell li::before { content: "· "; color: var(--text-secondary); }
+    .diff-cell--portal h3 { color: var(--primary-link); }
+    .diff-cell--portal { padding-left: var(--sp-3); border-left: 2px solid var(--primary-link); }
 
-    /* ───────── Footer ───────── */
+    /* ───────── 頁尾 ───────── */
     footer {
-      background: var(--bg-inv);
-      color: var(--fg-alt);
-      padding: var(--spacing-60) 0;
-      font-size: 14px;
+      background: var(--primary);
+      color: rgba(246, 246, 246, 0.82);
+      padding-block: var(--sp-5);
+      font-size: var(--fs-small);
     }
     .footer-inner {
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-      gap: var(--spacing-30);
+      gap: var(--sp-3) var(--sp-4);
     }
-    .footer-logo img {
-      height: 32px; opacity: 0.9;
-      filter: brightness(0) invert(1);
+    .footer-brand { display: flex; flex-direction: column; gap: var(--sp-1); }
+    .footer-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: rgba(246, 246, 246, 0.6);
     }
-    .footer-links { display: flex; gap: var(--spacing-40); }
-    .footer-links a { color: rgba(246, 246, 246, 0.7); }
-    .footer-links a:hover { color: #fff; text-decoration: none; }
-    .footer-copy {
-      width: 100%;
-      text-align: center;
-      padding-top: var(--spacing-40);
-      margin-top: var(--spacing-40);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(246, 246, 246, 0.5);
-      font-size: 13px;
+    .footer-links { display: flex; flex-wrap: wrap; gap: 0 var(--sp-3); }
+    .footer-links a {
+      display: inline-flex; align-items: center; min-height: 44px;
+      color: rgba(246, 246, 246, 0.78);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
+    .footer-links a:hover { color: #fff; }
+    footer a:focus-visible { outline-color: #fff; }
   </style>
 </head>
 <body>
 
-  <!-- ───────── Nav ───────── -->
-  <nav class="nav">
+  <!-- ───────── 頁首 ───────── -->
+  <header class="nav">
     <div class="container nav-inner">
-      <a href="/" class="nav-logo" aria-label="知識遊牧｜活動報名中心">
-        <span class="brand-main">知識遊牧</span>
-        <span class="brand-divider">｜</span>
-        <span class="brand-sub">活動報名中心</span>
+      <a href="./" class="brand" aria-label="知識遊牧工作室 活動報名中心 首頁">
+        <img src="assets/logo/wordmark-full.svg" alt="知識遊牧工作室" width="185" height="30">
+        <span class="brand-label">Events</span>
       </a>
-      <div class="nav-links">
+      <span class="nav-spacer"></span>
+      <nav class="nav-links" aria-label="主要導覽">
         <a href="#events">近期活動</a>
-        <a href="#about">關於我們</a>
-        <a href="https://www.knowmads.tw" target="_blank" rel="noopener" class="nav-cta">官網 ↗</a>
-      </div>
+        <a href="#past" class="nav-secondary">過去的活動</a>
+        <a href="#about" class="nav-secondary">關於</a>
+        <a href="https://knowmad.tw/" target="_blank" rel="noopener">官網 ↗</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
+  <main>
   <!-- ───────── Hero ───────── -->
-  <header class="hero">
+  <div class="hero">
     <div class="container hero-inner">
-      <img src="assets/logo/square-logo.png" alt="" class="hero-logo" onerror="this.style.display='none'">
-      <p class="hero-eyebrow">EVENTS · WORKSHOPS · COMMUNITY</p>
+      <img src="assets/logo/square-logo.png" alt="" class="hero-logo" width="72" height="72">
+      <p class="hero-eyebrow">Events · Workshops · Community</p>
       <h1>把學習，帶上路。</h1>
       <p class="hero-sub">
         知識遊牧工作室的活動報名入口 —
         從問卷、工作坊到社群聚會，所有最新場次都在這裡。
       </p>
       <div class="hero-actions">
-        <a href="#events" class="btn">看看近期活動</a>
-        <a href="#about" class="btn btn--ghost">關於知識遊牧</a>
+        <a href="#events" class="btn btn--on-dark">看看近期活動</a>
+        <a href="#about" class="btn btn--ghost-dark">關於這一站</a>
       </div>
-      <div class="hero-chips">
+      <div class="hero-chips" aria-label="活動類型">
         <span class="chip">問卷調查</span>
         <span class="chip">線上 / 實體工作坊</span>
         <span class="chip">講座</span>
         <span class="chip">社群聚會</span>
       </div>
     </div>
-  </header>
+  </div>
 
-  <!-- ───────── Events ───────── -->
-  <section id="events" class="section-alt">
+  <!-- ───────── 近期活動 ───────── -->
+  <section id="events">
     <div class="container">
       <div class="section-head">
-        <p class="section-eyebrow">UPCOMING</p>
+        <p class="section-eyebrow">Upcoming</p>
         <h2 class="section-title">近期活動</h2>
         <p class="section-desc">點選卡片即可前往該活動的報名表單，每場活動的截止時間請以表單內公告為準。</p>
       </div>
 
       <div class="events-grid">
 
-        <!-- 第一張卡片 ─ 第一個調查問卷 -->
-        <!-- TODO: 實際標題 / 描述 / 截止日請依問卷內容更新 -->
-        <article class="event-card">
-          <div class="event-meta">
-            <span class="event-tag event-tag--survey">問卷調查</span>
-            <span class="event-status">受理中</span>
-          </div>
-          <h3>第一份觀眾問卷調查</h3>
-          <p>
-            幫助知識遊牧更認識你 —
-            花 3 ~ 5 分鐘填寫問卷，告訴我們你想看到什麼樣的活動、課程與內容。
-            <br><small style="color:#aaa;">※ 標題與說明可後續替換</small>
-          </p>
-          <div class="event-info">
-            <span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              截止：<span style="color:#aaa;">日期待補</span>
-            </span>
-            <span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              預計花費：3 ~ 5 分鐘
-            </span>
-            <span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              形式：Google Forms
-            </span>
-          </div>
-          <a href="forms/audience-survey.html" class="btn">
-            前往填寫
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-        </article>
-
-        <!-- 第二張卡片 ─ 即將推出 (placeholder) -->
+        <!-- 預告卡：目前沒有開放中的場次 -->
         <article class="event-card event-card--upcoming">
           <div class="event-meta">
             <span class="event-tag event-tag--workshop">工作坊</span>
-            <span class="event-status is-closed">即將公告</span>
+            <span class="event-status is-pending">即將公告</span>
           </div>
           <h3>下一場活動</h3>
           <p>
-            正在規劃中 — 持續追蹤這頁，或先填上方問卷讓我們知道你想看的主題，
-            活動上線時會優先通知你。
+            正在規劃中 — 持續追蹤這頁，新場次開放報名時會第一時間放上來。
           </p>
-          <div class="event-info">
-            <span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <ul class="event-info">
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               日期：待公告
-            </span>
-            <span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               地點：待公告
-            </span>
+            </li>
+          </ul>
+          <button class="btn is-disabled" type="button" disabled>敬請期待</button>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── 過去的活動 ───────── -->
+  <section id="past" class="section-alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-eyebrow">Past</p>
+        <h2 class="section-title">過去的活動</h2>
+        <p class="section-desc">已經結束的活動與調查留在這裡備查。</p>
+      </div>
+
+      <div class="events-grid">
+
+        <!-- 2026-11-10 移到這裡：問卷是原訂 2026 年 7–8 月課程的事前意願調查，時間已過 -->
+        <article class="event-card event-card--ended">
+          <div class="event-meta">
+            <span class="event-tag event-tag--survey">問卷調查</span>
+            <span class="event-status is-ended">已結束</span>
           </div>
-          <button class="btn is-disabled" disabled>敬請期待</button>
+          <h3>意願調查：Claude Code AI 陪跑課</h3>
+          <p>
+            為原訂 2026 年 7–8 月在台北辦理的全日實體手把手課程，事先調查參加意願。
+          </p>
+          <ul class="event-info">
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              課程時間：原訂 2026 年 7–8 月
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              地點：台北（實體）
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              形式：Google Forms
+            </li>
+          </ul>
+          <a href="forms/audience-survey.html" class="btn btn--secondary">
+            查看問卷
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
         </article>
 
       </div>
@@ -563,56 +594,52 @@
   <section id="about">
     <div class="container">
       <div class="section-head">
-        <p class="section-eyebrow">ABOUT</p>
+        <p class="section-eyebrow">About</p>
         <h2 class="section-title">為什麼有「活動報名中心」這一站？</h2>
         <p class="section-desc">
-          這裡專門收齊知識遊牧工作室的活動與調查 — 與
-          <a href="https://www.knowmads.tw" target="_blank" rel="noopener">官網</a>
-          做出明確分工，讓你不用在課程目錄裡找報名表。
+          這裡專門收齊知識遊牧工作室的活動與調查，與
+          <a href="https://knowmad.tw/" target="_blank" rel="noopener">官網</a>
+          分工，讓你不用在課程目錄裡找報名表。
         </p>
       </div>
 
       <div class="about-diff">
-        <div class="diff-row">
-          <div class="diff-cell">
-            <h4>官網 / knowmads.tw</h4>
-            <ul>
-              <li>· 線上課程目錄</li>
-              <li>· 出版書籍與部落格</li>
-              <li>· 團隊介紹與聯絡資訊</li>
-              <li>· 長期內容與品牌主視覺</li>
-            </ul>
-          </div>
-          <div class="diff-cell diff-cell--portal">
-            <h4>活動報名中心 / 本站</h4>
-            <ul>
-              <li>· 工作坊、講座場次報名</li>
-              <li>· 社群聚會與線下活動</li>
-              <li>· 問卷調查與意見徵集</li>
-              <li>· 限時 / 即時性的活動入口</li>
-            </ul>
-          </div>
+        <div class="diff-cell">
+          <h3>官網 / knowmad.tw</h3>
+          <ul>
+            <li>線上課程目錄</li>
+            <li>出版書籍與部落格</li>
+            <li>團隊介紹與聯絡資訊</li>
+            <li>長期內容與品牌主視覺</li>
+          </ul>
+        </div>
+        <div class="diff-cell diff-cell--portal">
+          <h3>活動報名中心 / 本站</h3>
+          <ul>
+            <li>工作坊、講座場次報名</li>
+            <li>社群聚會與線下活動</li>
+            <li>問卷調查與意見徵集</li>
+            <li>限時 / 即時性的活動入口</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
+  </main>
 
-  <!-- ───────── Footer ───────── -->
+  <!-- ───────── 頁尾 ───────── -->
   <footer>
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-logo">
-          <img src="assets/logo/wordmark-full.svg" alt="知識遊牧工作室" onerror="this.parentElement.innerHTML='<span style=&quot;font-weight:600;color:#fff;&quot;>知識遊牧 ｜ 活動報名中心</span>'">
-        </div>
-        <div class="footer-links">
-          <a href="#events">近期活動</a>
-          <a href="#about">關於</a>
-          <a href="https://www.knowmads.tw" target="_blank" rel="noopener">官網</a>
-        </div>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div>© <span id="year">2026</span> 知識遊牧工作室 · 活動報名中心</div>
+        <div class="footer-meta">Knowmad Studio</div>
       </div>
-      <div class="footer-copy">
-        © <span id="year"></span> 知識遊牧工作室 Knowmad Studio · 活動報名中心
-      </div>
+      <nav class="footer-links" aria-label="頁尾連結">
+        <a href="#events">近期活動</a>
+        <a href="#past">過去的活動</a>
+        <a href="https://knowmad.tw/" target="_blank" rel="noopener">官網</a>
+        <a href="https://knowmad.tw/contact-us/" target="_blank" rel="noopener">聯絡我們</a>
+      </nav>
     </div>
   </footer>
 
